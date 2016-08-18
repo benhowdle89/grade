@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Grade</title>
+    <link href="https://npmcdn.com/basscss@8.0.1/css/basscss.min.css" rel="stylesheet">
+    <style media="screen">
+        * {
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Lucida Grande";
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            background-color: #fff;
+        }
+
+        .originalImage {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container center p2">
+        <h1 class="mb1">Gradient tool</h1>
+        <h3 class="mb2 max-width-3 mx-auto">This tool processes images, and renders complimentary gradients generated from the top 3 dominant colours in the image.</h3>
+        <label for="imageInput">Input image:</label>
+        <input type="file" id="imageInput" />
+        <div class="mt4 flex items-center justify-center" id="root"></div>
+    </div>
+    <script src="../dist/index.js"></script>
+    <script type="text/javascript">
+        var grade = new Grade(
+            document.getElementById('imageInput'), document.getElementById('root')
+        )
+    </script>
+</body>
+
+</html>
