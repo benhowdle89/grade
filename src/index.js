@@ -1,3 +1,5 @@
+const prefixes = ['webkit', 'moz', 'ms', 'o']
+
 class Grade {
     constructor(container) {
         this.container = container
@@ -19,9 +21,9 @@ class Grade {
     }
 
     getImageData() {
-        this.imageData = this.ctx.getImageData(
+        this.imageData = Array.from(this.ctx.getImageData(
             0, 0, this.imageDimensions.width, this.imageDimensions.height
-        ).data
+        ).data)
     }
 
     getChunkedImageData() {
@@ -44,10 +46,16 @@ class Grade {
     }
 
     getCSSGradientProperty(top) {
-        return `linear-gradient(
+        const val = this.getRGBAGradientValues(top)
+        return prefixes.map(prefix => {
+            return `background-image: -${prefix}-linear-gradient(
+                        to bottom right,
+                        ${val}
+                    )`
+        }).concat([`background-image: linear-gradient(
                     to bottom right,
-                    ${this.getRGBAGradientValues(top)}
-                )`
+                    ${val}
+                )`]).join(';')
     }
 
     getTopValues(uniq) {
@@ -79,7 +87,8 @@ class Grade {
     renderGradient() {
         let chunked = this.getChunkedImageData()
         let gradientProperty = this.getCSSGradientProperty(this.getTopValues(this.getUniqValues(chunked)))
-        this.container.style.backgroundImage = gradientProperty
+        let style = `${this.container.getAttribute('style') || ''} ${gradientProperty}`
+        this.container.setAttribute('style', style)
     }
 
     render() {
