@@ -117,9 +117,9 @@ var Grade = function () {
 }();
 
 module.exports = function (containers) {
-    Array.from(containers).forEach(function (container) {
+    NodeList.prototype.isPrototypeOf(containers) ? Array.from(containers).forEach(function (container) {
         return new Grade(container);
-    });
+    }) : new Grade(containers);
 };
 
 },{}]},{},[1])(1)

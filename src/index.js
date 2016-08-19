@@ -101,5 +101,7 @@ class Grade {
 }
 
 module.exports = (containers) => {
-    Array.from(containers).forEach(container => new Grade(container))
+    NodeList.prototype.isPrototypeOf(containers)
+    ? Array.from(containers).forEach(container => new Grade(container))
+    : new Grade(containers)
 }
