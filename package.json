@@ -1,11 +1,12 @@
 {
   "name": "grade-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "docs/dist/grade.js",
   "scripts": {
     "build": "browserify src/index.js --standalone Grade > docs/dist/grade.js",
-    "dev": "watchify src/index.js --standalone Grade -o docs/dist/grade.js"
+    "dev": "watchify src/index.js --standalone Grade -o docs/dist/grade.js",
+    "prepublish": "npm run build"
   },
   "keywords": [],
   "author": "Ben Howdle <hello@benhowdle.im> (http://benhowdle.im/)",
