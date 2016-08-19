@@ -1,7 +1,7 @@
 {
   "name": "grade-js",
-  "version": "1.0.1",
-  "description": "",
+  "version": "1.0.2",
+  "description": "This JavaScript library produces complimentary gradients generated from the top 2 dominant colours in supplied images",
   "main": "docs/dist/grade.js",
   "scripts": {
     "build": "browserify src/index.js --standalone Grade > docs/dist/grade.js",
