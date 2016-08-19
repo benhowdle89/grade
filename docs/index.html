@@ -17,15 +17,19 @@
             font-family: system, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Lucida Grande";
             line-height: 1.65;
             -webkit-font-smoothing: antialiased;
-            background-color: #fff;
+            background: #fff;
         }
 
         a {
             color: inherit;
         }
 
-        .gradient-wrap img {
+        .gradient-wrap {
+            box-shadow: 0 1px 2px rgba(5,30,50,.2);
+        }
 
+        .gradient-wrap img {
+            box-shadow: 0 1px 2px rgba(5,30,50,.2);
         }
     </style>
 </head>
@@ -33,7 +37,7 @@
 <body>
     <div class="container center p2 pt4">
         <h1 class="mb1">Grade.js</h1>
-        <h3 class="mb4 max-width-3 mx-auto">This JavaScript library produces complimentary gradients generated from the top 2 dominant colours in supplied images.</h3>
+        <h3 class="h3 mb4 max-width-3 mx-auto">This JavaScript library produces complimentary gradients generated from the top 2 dominant colours in supplied images.</h3>
         <div class="gradient-wrap p4 mb2 mr1 inline-block">
             <img src="./samples/inside-out.jpg" alt="" />
         </div>
