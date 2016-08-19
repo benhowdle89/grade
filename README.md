@@ -1,10 +1,14 @@
 # Grade
 
+## Demo
+
+[Check it out](http://benhowdle.im/grade)
+
 ## Install
 
 Download this repo and grab the `grade.js` file from the `/docs/dist` folder.
 
-Or install from npm: `npm install grade`
+Or install from npm: `npm install grade-js`
 
 ## Usage
 
@@ -39,6 +43,6 @@ If you have the `grade.js` in your project, you can include it with a script tag
 If you've installed from npm, you can use the library like so:
 
 ```javascript
-import Grade from 'grade'
+import Grade from 'grade-js'
 // initialise as above
 ```
