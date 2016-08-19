@@ -11,6 +11,7 @@ Or install from npm: `npm install grade`
 Recommended HTML structure:
 
 ```html
+<!--the gradients will be applied to these outer divs, as background-images-->
 <div class="gradient-wrap">
     <img src="./samples/finding-dory.jpg" alt="" />
 </div>
