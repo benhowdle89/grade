@@ -2,16 +2,19 @@
   "name": "grade",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/grade.js",
   "scripts": {
-    "build": "babel src -d dist",
-    "dev": "babel src -w -d dist"
+    "build": "browserify src/index.js --standalone Grade > dist/grade.js",
+    "dev": "watchify src/index.js --standalone Grade -o dist/grade.js"
   },
   "keywords": [],
   "author": "Ben Howdle <hello@benhowdle.im> (http://benhowdle.im/)",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.11.4",
-    "babel-preset-es2015": "^6.13.2"
+    "babel-preset-es2015": "^6.13.2",
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.0",
+    "watchify": "^3.7.0"
   }
 }
