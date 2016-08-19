@@ -2,7 +2,7 @@
 
 ## Install
 
-Download this repo and grab the `grade.js` file from the `/dist` folder.
+Download this repo and grab the `grade.js` file from the `/docs/dist` folder.
 
 Or install from npm: `npm install grade`
 
