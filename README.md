@@ -8,6 +8,17 @@ Or install from npm: `npm install grade`
 
 ## Usage
 
+Recommended HTML structure:
+
+```html
+<div class="gradient-wrap">
+    <img src="./samples/finding-dory.jpg" alt="" />
+</div>
+<div class="gradient-wrap">
+    <img src="./samples/good-dinosaur.jpg" alt="" />
+</div>
+```
+
 If you have the `grade.js` in your project, you can include it with a script tag and initialise it like so:
 
 ```javascript
