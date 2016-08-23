@@ -1,4 +1,4 @@
-const prefixes = ['webkit', 'moz', 'ms', 'o']
+const prefixes = ['webkit']
 
 class Grade {
     constructor(container) {
@@ -21,15 +21,16 @@ class Grade {
     }
 
     getImageData() {
-        this.imageData = Array.from(this.ctx.getImageData(
+        let imageData = this.ctx.getImageData(
             0, 0, this.imageDimensions.width, this.imageDimensions.height
-        ).data)
+        ).data
+        this.imageData = Array.from(imageData)
     }
 
     getChunkedImageData() {
         const perChunk = 4
 
-        return this.imageData.reduce((ar, it, i) => {
+        let chunked = this.imageData.reduce((ar, it, i) => {
             const ix = Math.floor(i / perChunk)
             if (!ar[ix]) {
                 ar[ix] = []
@@ -37,11 +38,17 @@ class Grade {
             ar[ix].push(it)
             return ar
         }, [])
+
+        let filtered = chunked.filter(rgba => {
+            return rgba.slice(0, 2).every(val => val < 250) && rgba.slice(0, 2).every(val => val > 0)
+        })
+
+        return filtered
     }
 
     getRGBAGradientValues(top) {
         return top.map((color, index) => {
-            return `rgb(${color.rgba.slice(0, 3).join(',')})`
+            return `rgb(${color.rgba.slice(0, 3).join(',')}) ${index == 0 ? '0%' : '75%'}`
         }).join(',')
     }
 
@@ -49,27 +56,32 @@ class Grade {
         const val = this.getRGBAGradientValues(top)
         return prefixes.map(prefix => {
             return `background-image: -${prefix}-linear-gradient(
-                        to bottom right,
+                        135deg,
                         ${val}
                     )`
         }).concat([`background-image: linear-gradient(
-                    to bottom right,
+                    135deg,
                     ${val}
                 )`]).join(';')
     }
 
-    getTopValues(uniq) {
-        return [
-            ...Object.keys(uniq).map(key => {
+    getSortedValues(uniq) {
+        const occurs = Object.keys(uniq).map(key => {
                 const rgbaKey = key
                 let components = key.split('|'),
                     brightness = ((components[0] * 299) + (components[1] * 587) + (components[2] * 114)) / 1000
                 return {
                     rgba: rgbaKey.split('|'),
-                    occurs: uniq[key]
+                    occurs: uniq[key],
+                    brightness
                 }
-            }).sort((a, b) => a.brightness - b.brightness).reverse().slice(0, 2)
-        ]
+            }).sort((a, b) => a.occurs - b.occurs).reverse().slice(0, 10)
+        return occurs.sort((a, b) => a.brightness - b.brightness).reverse()
+    }
+
+    getTopValues(uniq) {
+        let sorted = this.getSortedValues(uniq)
+        return [sorted[0], sorted[sorted.length - 1]]
     }
 
     getUniqValues(chunked) {
@@ -87,7 +99,7 @@ class Grade {
     renderGradient() {
         let chunked = this.getChunkedImageData()
         let gradientProperty = this.getCSSGradientProperty(this.getTopValues(this.getUniqValues(chunked)))
-        let style = `${this.container.getAttribute('style') || ''} ${gradientProperty}`
+        let style = `${this.container.getAttribute('style') || ''}; ${gradientProperty}`
         this.container.setAttribute('style', style)
     }
 
@@ -100,8 +112,8 @@ class Grade {
     }
 }
 
-module.exports = (containers) => {
+module.exports = (containers => {
     NodeList.prototype.isPrototypeOf(containers)
     ? Array.from(containers).forEach(container => new Grade(container))
     : new Grade(containers)
-}
+})

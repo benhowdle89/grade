@@ -3,11 +3,9 @@
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var prefixes = ['webkit', 'moz', 'ms', 'o'];
+var prefixes = ['webkit'];
 
 var Grade = function () {
     function Grade(container) {
@@ -35,14 +33,15 @@ var Grade = function () {
     }, {
         key: 'getImageData',
         value: function getImageData() {
-            this.imageData = Array.from(this.ctx.getImageData(0, 0, this.imageDimensions.width, this.imageDimensions.height).data);
+            var imageData = this.ctx.getImageData(0, 0, this.imageDimensions.width, this.imageDimensions.height).data;
+            this.imageData = Array.from(imageData);
         }
     }, {
         key: 'getChunkedImageData',
         value: function getChunkedImageData() {
             var perChunk = 4;
 
-            return this.imageData.reduce(function (ar, it, i) {
+            var chunked = this.imageData.reduce(function (ar, it, i) {
                 var ix = Math.floor(i / perChunk);
                 if (!ar[ix]) {
                     ar[ix] = [];
@@ -50,12 +49,22 @@ var Grade = function () {
                 ar[ix].push(it);
                 return ar;
             }, []);
+
+            var filtered = chunked.filter(function (rgba) {
+                return rgba.slice(0, 2).every(function (val) {
+                    return val < 250;
+                }) && rgba.slice(0, 2).every(function (val) {
+                    return val > 0;
+                });
+            });
+
+            return filtered;
         }
     }, {
         key: 'getRGBAGradientValues',
         value: function getRGBAGradientValues(top) {
             return top.map(function (color, index) {
-                return 'rgb(' + color.rgba.slice(0, 3).join(',') + ')';
+                return 'rgb(' + color.rgba.slice(0, 3).join(',') + ') ' + (index == 0 ? '0%' : '75%');
             }).join(',');
         }
     }, {
@@ -63,23 +72,33 @@ var Grade = function () {
         value: function getCSSGradientProperty(top) {
             var val = this.getRGBAGradientValues(top);
             return prefixes.map(function (prefix) {
-                return 'background-image: -' + prefix + '-linear-gradient(\n                        to bottom right,\n                        ' + val + '\n                    )';
-            }).concat(['background-image: linear-gradient(\n                    to bottom right,\n                    ' + val + '\n                )']).join(';');
+                return 'background-image: -' + prefix + '-linear-gradient(\n                        135deg,\n                        ' + val + '\n                    )';
+            }).concat(['background-image: linear-gradient(\n                    135deg,\n                    ' + val + '\n                )']).join(';');
         }
     }, {
-        key: 'getTopValues',
-        value: function getTopValues(uniq) {
-            return [].concat(_toConsumableArray(Object.keys(uniq).map(function (key) {
+        key: 'getSortedValues',
+        value: function getSortedValues(uniq) {
+            var occurs = Object.keys(uniq).map(function (key) {
                 var rgbaKey = key;
                 var components = key.split('|'),
                     brightness = (components[0] * 299 + components[1] * 587 + components[2] * 114) / 1000;
                 return {
                     rgba: rgbaKey.split('|'),
-                    occurs: uniq[key]
+                    occurs: uniq[key],
+                    brightness: brightness
                 };
             }).sort(function (a, b) {
+                return a.occurs - b.occurs;
+            }).reverse().slice(0, 10);
+            return occurs.sort(function (a, b) {
                 return a.brightness - b.brightness;
-            }).reverse().slice(0, 2)));
+            }).reverse();
+        }
+    }, {
+        key: 'getTopValues',
+        value: function getTopValues(uniq) {
+            var sorted = this.getSortedValues(uniq);
+            return [sorted[0], sorted[sorted.length - 1]];
         }
     }, {
         key: 'getUniqValues',
@@ -99,7 +118,7 @@ var Grade = function () {
         value: function renderGradient() {
             var chunked = this.getChunkedImageData();
             var gradientProperty = this.getCSSGradientProperty(this.getTopValues(this.getUniqValues(chunked)));
-            var style = (this.container.getAttribute('style') || '') + ' ' + gradientProperty;
+            var style = (this.container.getAttribute('style') || '') + '; ' + gradientProperty;
             this.container.setAttribute('style', style);
         }
     }, {
