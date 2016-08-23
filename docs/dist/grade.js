@@ -8,11 +8,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var prefixes = ['webkit'];
 
 var Grade = function () {
-    function Grade(container) {
+    function Grade(container, img_selector) {
         _classCallCheck(this, Grade);
 
         this.container = container;
-        this.image = this.container.querySelector('img');
+        this.image = this.container.querySelector(img_selector) || this.container.querySelector('img');
+        if (!this.image || !this.container) {
+            return;
+        }
         this.canvas = document.createElement('canvas');
         this.ctx = this.canvas.getContext('2d');
         this.imageDimensions = {
@@ -26,8 +29,8 @@ var Grade = function () {
     _createClass(Grade, [{
         key: 'readImage',
         value: function readImage() {
-            this.imageDimensions.width = this.image.width;
-            this.imageDimensions.height = this.image.height;
+            this.imageDimensions.width = this.image.width * 0.1;
+            this.imageDimensions.height = this.image.height * 0.1;
             this.render();
         }
     }, {
@@ -126,7 +129,7 @@ var Grade = function () {
         value: function render() {
             this.canvas.width = this.imageDimensions.width;
             this.canvas.height = this.imageDimensions.height;
-            this.ctx.drawImage(this.image, 0, 0);
+            this.ctx.drawImage(this.image, 0, 0, this.imageDimensions.width, this.imageDimensions.height);
             this.getImageData();
             this.renderGradient();
         }
@@ -135,10 +138,10 @@ var Grade = function () {
     return Grade;
 }();
 
-module.exports = function (containers) {
+module.exports = function (containers, img_selector) {
     NodeList.prototype.isPrototypeOf(containers) ? Array.from(containers).forEach(function (container) {
-        return new Grade(container);
-    }) : new Grade(containers);
+        return new Grade(container, img_selector);
+    }) : new Grade(containers, img_selector);
 };
 
 },{}]},{},[1])(1)

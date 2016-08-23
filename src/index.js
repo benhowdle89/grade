@@ -3,7 +3,10 @@ const prefixes = ['webkit'];
 class Grade {
     constructor(container, img_selector) {
         this.container = container;
-        this.image = this.container.querySelector(img_selector) || this.container.querySelector('img');
+        this.image = this.container.querySelector(img_selector) || this.container.querySelector('img')
+        if(!this.image || !this.container){
+            return
+        }
         this.canvas = document.createElement('canvas');
         this.ctx = this.canvas.getContext('2d');
         this.imageDimensions = {
@@ -15,9 +18,8 @@ class Grade {
     }
 
     readImage() {
-        this.imageDimensions.width = this.image.width;
-        this.imageDimensions.height = this.image.height;
-
+        this.imageDimensions.width = this.image.width * 0.1;
+        this.imageDimensions.height = this.image.height * 0.1;
         this.render()
     }
 
@@ -107,9 +109,9 @@ class Grade {
     render() {
         this.canvas.width = this.imageDimensions.width;
         this.canvas.height = this.imageDimensions.height;
-        this.ctx.drawImage(this.image, 0, 0);
+        this.ctx.drawImage(this.image, 0, 0, this.imageDimensions.width, this.imageDimensions.height);
         this.getImageData();
-        this.renderGradient()
+        this.renderGradient();
     }
 }
 
