@@ -26,7 +26,7 @@ Recommended HTML structure:
 
 If you have the `grade.js` in your project, you can include it with a script tag and initialise it like so:
 
-```javascript
+```html
 <script src="path/to/grade.js"></script>
 <script type="text/javascript">
     window.addEventListener('load', function(){
