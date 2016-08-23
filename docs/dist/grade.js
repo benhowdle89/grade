@@ -119,8 +119,23 @@ var Grade = function () {
     }, {
         key: 'renderGradient',
         value: function renderGradient() {
-            var chunked = this.getChunkedImageData();
-            var gradientProperty = this.getCSSGradientProperty(this.getTopValues(this.getUniqValues(chunked)));
+            var ls = window.localStorage;
+            var item_name = 'grade-' + this.image.getAttribute('src').split('/').slice(-1)[0];
+            var top = null;
+
+            if (ls && ls.getItem(item_name)) {
+                top = JSON.parse(ls.getItem(item_name));
+            } else {
+                var chunked = this.getChunkedImageData();
+                top = this.getTopValues(this.getUniqValues(chunked));
+
+                if (ls) {
+                    ls.setItem(item_name, JSON.stringify(top));
+                }
+            }
+
+            var gradientProperty = this.getCSSGradientProperty(top);
+
             var style = (this.container.getAttribute('style') || '') + '; ' + gradientProperty;
             this.container.setAttribute('style', style);
         }
