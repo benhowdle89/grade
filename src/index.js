@@ -100,8 +100,23 @@ class Grade {
     }
 
     renderGradient() {
-        let chunked = this.getChunkedImageData();
-        let gradientProperty = this.getCSSGradientProperty(this.getTopValues(this.getUniqValues(chunked)));
+        const ls = window.localStorage;
+        const item_name = `grade-${this.image.getAttribute('src').split('/').slice(-1)[0]}`;
+        let top = null;
+
+        if (ls && ls.getItem(item_name)) {
+            top = JSON.parse(ls.getItem(item_name));
+        } else {
+            let chunked = this.getChunkedImageData();
+            top = this.getTopValues(this.getUniqValues(chunked));
+
+            if (ls) {
+                ls.setItem(item_name, JSON.stringify(top));
+            }
+        }
+
+        let gradientProperty = this.getCSSGradientProperty(top);
+
         let style = `${this.container.getAttribute('style') || ''}; ${gradientProperty}`;
         this.container.setAttribute('style', style)
     }
