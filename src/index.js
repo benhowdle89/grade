@@ -1,47 +1,48 @@
-const prefixes = ['webkit']
+const prefixes = ['webkit'];
 
 class Grade {
-    constructor(container) {
-        this.container = container
-        this.image = this.container.querySelector('img')
-        this.canvas = document.createElement('canvas')
-        this.ctx = this.canvas.getContext('2d')
+    constructor(container, img_selector) {
+        this.container = container;
+        this.image = this.container.querySelector(img_selector) || this.container.querySelector('img');
+        this.canvas = document.createElement('canvas');
+        this.ctx = this.canvas.getContext('2d');
         this.imageDimensions = {
             width: 0,
             height: 0
-        }
-        this.imageData = []
+        };
+        this.imageData = [];
         this.readImage()
     }
 
     readImage() {
-        this.imageDimensions.width = this.image.width
-        this.imageDimensions.height = this.image.height
+        this.imageDimensions.width = this.image.width;
+        this.imageDimensions.height = this.image.height;
+
         this.render()
     }
 
     getImageData() {
         let imageData = this.ctx.getImageData(
             0, 0, this.imageDimensions.width, this.imageDimensions.height
-        ).data
+        ).data;
         this.imageData = Array.from(imageData)
     }
 
     getChunkedImageData() {
-        const perChunk = 4
+        const perChunk = 4;
 
         let chunked = this.imageData.reduce((ar, it, i) => {
             const ix = Math.floor(i / perChunk)
             if (!ar[ix]) {
                 ar[ix] = []
             }
-            ar[ix].push(it)
+            ar[ix].push(it);
             return ar
-        }, [])
+        }, []);
 
         let filtered = chunked.filter(rgba => {
             return rgba.slice(0, 2).every(val => val < 250) && rgba.slice(0, 2).every(val => val > 0)
-        })
+        });
 
         return filtered
     }
@@ -53,7 +54,7 @@ class Grade {
     }
 
     getCSSGradientProperty(top) {
-        const val = this.getRGBAGradientValues(top)
+        const val = this.getRGBAGradientValues(top);
         return prefixes.map(prefix => {
             return `background-image: -${prefix}-linear-gradient(
                         135deg,
@@ -67,7 +68,7 @@ class Grade {
 
     getSortedValues(uniq) {
         const occurs = Object.keys(uniq).map(key => {
-                const rgbaKey = key
+                const rgbaKey = key;
                 let components = key.split('|'),
                     brightness = ((components[0] * 299) + (components[1] * 587) + (components[2] * 114)) / 1000
                 return {
@@ -75,45 +76,45 @@ class Grade {
                     occurs: uniq[key],
                     brightness
                 }
-            }).sort((a, b) => a.occurs - b.occurs).reverse().slice(0, 10)
+            }).sort((a, b) => a.occurs - b.occurs).reverse().slice(0, 10);
         return occurs.sort((a, b) => a.brightness - b.brightness).reverse()
     }
 
     getTopValues(uniq) {
-        let sorted = this.getSortedValues(uniq)
+        let sorted = this.getSortedValues(uniq);
         return [sorted[0], sorted[sorted.length - 1]]
     }
 
     getUniqValues(chunked) {
         return chunked.reduce((accum, current) => {
-            let key = current.join('|')
+            let key = current.join('|');
             if (!accum[key]) {
-                accum[key] = 1
+                accum[key] = 1;
                 return accum
             }
-            accum[key] = ++(accum[key])
+            accum[key] = ++(accum[key]);
             return accum
         }, {})
     }
 
     renderGradient() {
-        let chunked = this.getChunkedImageData()
-        let gradientProperty = this.getCSSGradientProperty(this.getTopValues(this.getUniqValues(chunked)))
-        let style = `${this.container.getAttribute('style') || ''}; ${gradientProperty}`
+        let chunked = this.getChunkedImageData();
+        let gradientProperty = this.getCSSGradientProperty(this.getTopValues(this.getUniqValues(chunked)));
+        let style = `${this.container.getAttribute('style') || ''}; ${gradientProperty}`;
         this.container.setAttribute('style', style)
     }
 
     render() {
-        this.canvas.width = this.imageDimensions.width
-        this.canvas.height = this.imageDimensions.height
-        this.ctx.drawImage(this.image, 0, 0)
-        this.getImageData()
+        this.canvas.width = this.imageDimensions.width;
+        this.canvas.height = this.imageDimensions.height;
+        this.ctx.drawImage(this.image, 0, 0);
+        this.getImageData();
         this.renderGradient()
     }
 }
 
-module.exports = (containers => {
+module.exports = (containers, img_selector) => {
     NodeList.prototype.isPrototypeOf(containers)
-    ? Array.from(containers).forEach(container => new Grade(container))
-    : new Grade(containers)
-})
+    ? Array.from(containers).forEach(container => new Grade(container, img_selector))
+    : new Grade(containers, img_selector)
+};
