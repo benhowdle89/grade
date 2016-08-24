@@ -47,6 +47,30 @@ import Grade from 'grade-js'
 // initialise as above
 ```
 
+## Running locally
+
+If you want to run this locally, just to test it, you need to serve `index.html` via a webserver, not just by opening it in a browser, else the browser will throw a security error. I would recommend either [live-server](https://www.npmjs.com/package/live-server) (requires Node.js installed on your machine) or if you have Python installed, just run `python -m SimpleHTTPServer` inside the project root. If you're on Windows, I believe WAMP/Apache is the best way to go.
+
+## Remote images
+
+This plugin utilises the `<canvas>` element and the `ImageData` object, and due to cross-site security limitations, the script will fail if one tries to extract the colors from an image not hosted on the current domain, *unless* the image allows for [Cross Origin Resource Sharing](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing).
+
+__Enabling CORS on S3__
+
+To enable CORS for images hosted on S3 buckets, follow the Amazon guide [here](http://docs.aws.amazon.com/AmazonS3/latest/UG/EditingBucketPermissions.html); adding the following to the bucket's CORS configuration:
+
+```xml
+<CORSRule>
+ <AllowedOrigin>*</AllowedOrigin>
+ <AllowedMethod>GET</AllowedMethod>
+</CORSRule>
+```
+
+For all images, you can optionally also include a cross-origin attribute in your image.
+
+```html
+<img src="/image.jpg" cross-origin="anonymous"/>
+```
 
 ## License
 
