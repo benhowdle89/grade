@@ -51,6 +51,8 @@ import Grade from 'grade-js'
 // initialise as above
 ```
 
+The module this imports will be using ES2015 syntax, so it will need to be transpiled by a build tool, like [Babel](https://babeljs.io/), and if you are importing the module in this fashion (and using npm), I imagine you're already using a bundling tool, like Webpack or Browserify!
+
 ## Running locally
 
 If you want to run this locally, just to test it, you need to serve `index.html` via a webserver, not just by opening it in a browser, else the browser will throw a security error. I would recommend either [live-server](https://www.npmjs.com/package/live-server) (requires Node.js installed on your machine) or if you have Python installed, just run `python -m SimpleHTTPServer` inside the project root. If you're on Windows, I believe WAMP/Apache is the best way to go.
