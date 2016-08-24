@@ -10,6 +10,10 @@ Download this repo and grab the `grade.js` file from the `/docs/dist` folder.
 
 Or install from npm: `npm install grade-js`
 
+Use the CDN link:
+
+`https://npmcdn.com/grade-js/docs/dist/grade.js`
+
 ## Usage
 
 Recommended HTML structure:
