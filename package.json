@@ -1,6 +1,6 @@
 {
   "name": "grade-js",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "This JavaScript library produces complimentary gradients generated from the top 2 dominant colours in supplied images",
   "main": "src/index.js",
   "files": [

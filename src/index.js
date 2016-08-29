@@ -1,9 +1,11 @@
 const prefixes = ['webkit'];
 
 class Grade {
-    constructor(container, img_selector) {
+    constructor(container, img_selector, callback) {
+        this.callback = callback || null
         this.container = container;
         this.image = this.container.querySelector(img_selector) || this.container.querySelector('img')
+        this.gradientData = []
         if(!this.image || !this.container){
             return
         }
@@ -115,6 +117,11 @@ class Grade {
             }
         }
 
+        if(this.callback){
+            this.gradientData = top
+            return
+        }
+
         let gradientProperty = this.getCSSGradientProperty(top);
 
         let style = `${this.container.getAttribute('style') || ''}; ${gradientProperty}`;
@@ -130,8 +137,23 @@ class Grade {
     }
 }
 
-module.exports = (containers, img_selector) => {
-    NodeList.prototype.isPrototypeOf(containers)
-    ? Array.from(containers).forEach(container => new Grade(container, img_selector))
-    : new Grade(containers, img_selector)
+module.exports = (containers, img_selector, callback) => {
+    const init = (container, img_selector, callback) => {
+        let grade = new Grade(container, img_selector, callback),
+            gradientData = grade.gradientData
+        if(!gradientData.length){
+            return null
+        }
+        return {
+            element: container,
+            gradientData
+        }
+    }
+    let results = (NodeList.prototype.isPrototypeOf(containers)
+    ? Array.from(containers).map(container => init(container, img_selector, callback))
+    : [init(containers, img_selector, callback)]).filter(Boolean)
+
+    if(results.length){
+        return callback(results)
+    }
 };

@@ -44,6 +44,13 @@ If you have the `grade.js` in your project, you can include it with a script tag
 </script>
 ```
 
+If you pass in a 3rd parameter and it's a function, the HTML element(s) you passed in as the 1st parameter will **not** be manipulated, but an array will be returned to you, for you to do as you please with, ie.
+```javascript
+Grade(document.querySelectorAll('.gradient-wrap'), null, function(gradientData){
+    // sample contents of `gradientData` can be inspected here https://jsonblob.com/57c4601ee4b0dc55a4f180f1
+})
+```
+
 If you've installed from npm, you can use the library like so:
 
 ```javascript

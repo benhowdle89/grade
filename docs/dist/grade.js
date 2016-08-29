@@ -8,11 +8,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var prefixes = ['webkit'];
 
 var Grade = function () {
-    function Grade(container, img_selector) {
+    function Grade(container, img_selector, callback) {
         _classCallCheck(this, Grade);
 
+        this.callback = callback || null;
         this.container = container;
         this.image = this.container.querySelector(img_selector) || this.container.querySelector('img');
+        this.gradientData = [];
         if (!this.image || !this.container) {
             return;
         }
@@ -134,6 +136,11 @@ var Grade = function () {
                 }
             }
 
+            if (this.callback) {
+                this.gradientData = top;
+                return;
+            }
+
             var gradientProperty = this.getCSSGradientProperty(top);
 
             var style = (this.container.getAttribute('style') || '') + '; ' + gradientProperty;
@@ -153,10 +160,25 @@ var Grade = function () {
     return Grade;
 }();
 
-module.exports = function (containers, img_selector) {
-    NodeList.prototype.isPrototypeOf(containers) ? Array.from(containers).forEach(function (container) {
-        return new Grade(container, img_selector);
-    }) : new Grade(containers, img_selector);
+module.exports = function (containers, img_selector, callback) {
+    var init = function init(container, img_selector, callback) {
+        var grade = new Grade(container, img_selector, callback),
+            gradientData = grade.gradientData;
+        if (!gradientData.length) {
+            return null;
+        }
+        return {
+            element: container,
+            gradientData: gradientData
+        };
+    };
+    var results = (NodeList.prototype.isPrototypeOf(containers) ? Array.from(containers).map(function (container) {
+        return init(container, img_selector, callback);
+    }) : [init(containers, img_selector, callback)]).filter(Boolean);
+
+    if (results.length) {
+        return callback(results);
+    }
 };
 
 },{}]},{},[1])(1)
