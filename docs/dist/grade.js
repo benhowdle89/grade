@@ -122,7 +122,7 @@ var Grade = function () {
         key: 'renderGradient',
         value: function renderGradient() {
             var ls = window.localStorage;
-            var item_name = 'grade-' + this.image.getAttribute('src').split('/').slice(-1)[0];
+            var item_name = 'grade-' + this.image.getAttribute('src');
             var top = null;
 
             if (ls && ls.getItem(item_name)) {

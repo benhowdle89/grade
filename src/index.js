@@ -103,7 +103,7 @@ class Grade {
 
     renderGradient() {
         const ls = window.localStorage;
-        const item_name = `grade-${this.image.getAttribute('src').split('/').slice(-1)[0]}`;
+        const item_name = `grade-${this.image.getAttribute('src')}`;
         let top = null;
 
         if (ls && ls.getItem(item_name)) {
