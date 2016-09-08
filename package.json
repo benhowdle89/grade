@@ -12,7 +12,14 @@
     "dev": "watchify src/index.js -t babelify --standalone Grade -o docs/dist/grade.js",
     "prepublish": "npm run build"
   },
-  "keywords": [],
+  "keywords": [
+    "complimentary",
+    "gradients",
+    "image",
+    "color",
+    "complementary"
+  ],
+  "homepage": "http://benhowdle.im/grade",
   "author": "Ben Howdle <hello@benhowdle.im> (http://benhowdle.im/)",
   "license": "ISC",
   "devDependencies": {
@@ -21,5 +28,9 @@
     "babelify": "^7.3.0",
     "browserify": "^13.1.0",
     "watchify": "^3.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/benhowdle89/grade.git"
   }
 }
