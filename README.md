@@ -12,7 +12,7 @@ Or install from npm: `npm install grade-js`
 
 Use the CDN link:
 
-`https://npmcdn.com/grade-js/docs/dist/grade.js`
+`https://unpkg.com/grade-js/docs/dist/grade.js`
 
 ## Usage
 
