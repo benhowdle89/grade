@@ -70,6 +70,14 @@ class Grade {
                 )`]).join(';')
     }
 
+    getMiddleRGB(start, end) {
+        let w = 0.5 * 2 - 1;
+        let w1 = (w + 1) / 2.0;
+        let w2 = 1 - w1;
+        let rgb = [parseInt(start[0] * w1 + end[0] * w2), parseInt(start[1] * w1 + end[1] * w2), parseInt(start[2] * w1 + end[2] * w2)];
+        return rgb;
+    }
+
     getSortedValues(uniq) {
         const occurs = Object.keys(uniq).map(key => {
                 const rgbaKey = key;
@@ -82,6 +90,16 @@ class Grade {
                 }
             }).sort((a, b) => a.occurs - b.occurs).reverse().slice(0, 10);
         return occurs.sort((a, b) => a.brightness - b.brightness).reverse()
+    }
+
+    getTextProperty(top) {
+        let rgb = this.getMiddleRGB(top[0].rgba.slice(0,3), top[1].rgba.slice(0,3));
+        let o = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) /1000);
+        if (o > 125) {
+            return 'color: #000';
+        } else { 
+            return 'color: #fff';
+        }
     }
 
     getTopValues(uniq) {
@@ -124,7 +142,9 @@ class Grade {
 
         let gradientProperty = this.getCSSGradientProperty(top);
 
-        let style = `${this.container.getAttribute('style') || ''}; ${gradientProperty}`;
+        let textProperty = this.getTextProperty(top);
+
+        let style = `${this.container.getAttribute('style') || ''}; ${gradientProperty}; ${textProperty}`;
         this.container.setAttribute('style', style)
     }
 

@@ -81,6 +81,15 @@ var Grade = function () {
             }).concat(['background-image: linear-gradient(\n                    135deg,\n                    ' + val + '\n                )']).join(';');
         }
     }, {
+        key: 'getMiddleRGB',
+        value: function getMiddleRGB(start, end) {
+            var w = 0.5 * 2 - 1;
+            var w1 = (w + 1) / 2.0;
+            var w2 = 1 - w1;
+            var rgb = [parseInt(start[0] * w1 + end[0] * w2), parseInt(start[1] * w1 + end[1] * w2), parseInt(start[2] * w1 + end[2] * w2)];
+            return rgb;
+        }
+    }, {
         key: 'getSortedValues',
         value: function getSortedValues(uniq) {
             var occurs = Object.keys(uniq).map(function (key) {
@@ -98,6 +107,17 @@ var Grade = function () {
             return occurs.sort(function (a, b) {
                 return a.brightness - b.brightness;
             }).reverse();
+        }
+    }, {
+        key: 'getTextProperty',
+        value: function getTextProperty(top) {
+            var rgb = this.getMiddleRGB(top[0].rgba.slice(0, 3), top[1].rgba.slice(0, 3));
+            var o = Math.round((parseInt(rgb[0]) * 299 + parseInt(rgb[1]) * 587 + parseInt(rgb[2]) * 114) / 1000);
+            if (o > 125) {
+                return 'color: #000';
+            } else {
+                return 'color: #fff';
+            }
         }
     }, {
         key: 'getTopValues',
@@ -143,7 +163,9 @@ var Grade = function () {
 
             var gradientProperty = this.getCSSGradientProperty(top);
 
-            var style = (this.container.getAttribute('style') || '') + '; ' + gradientProperty;
+            var textProperty = this.getTextProperty(top);
+
+            var style = (this.container.getAttribute('style') || '') + '; ' + gradientProperty + '; ' + textProperty;
             this.container.setAttribute('style', style);
         }
     }, {
