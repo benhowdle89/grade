@@ -2,7 +2,7 @@
 
 ## Demo
 
-[Check it out](http://benhowdle.im/grade)
+[Check it out](https://benhowdle89.github.io/grade/)
 
 ## Install
 
