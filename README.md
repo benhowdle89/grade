@@ -1,5 +1,7 @@
 # Grade
 
+![](https://img.shields.io/npm/dt/grade-js.svg)
+
 ## Demo
 
 [Check it out](https://benhowdle89.github.io/grade/)
