@@ -4,9 +4,9 @@ class Grade {
     constructor(container, img_selector, callback) {
         this.callback = callback || null
         this.container = container;
-        this.image = this.container.querySelector(img_selector) || this.container.querySelector('img')
+        this.imageContainer = this.container.querySelector(img_selector) || this.container.querySelector('img')
         this.gradientData = []
-        if(!this.image || !this.container){
+        if(!this.imageContainer || !this.container){
             return
         }
         this.canvas = document.createElement('canvas');
@@ -16,7 +16,12 @@ class Grade {
             height: 0
         };
         this.imageData = [];
-        this.readImage()
+        this.image = new Image();
+        this.image.src = this.imageContainer.src;
+        this.image.crossOrigin = "anonymous";
+        this.image.onload = () => {
+            this.readImage();
+        };
     }
 
     readImage() {
