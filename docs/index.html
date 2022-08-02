@@ -1,46 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="This JavaScript library produces complementary gradients generated from the top 2 dominant colours in supplied images">
     <title>Grade.js</title>
-    <link href="https://unpkg.com/basscss@8.0.1/css/basscss.min.css" rel="stylesheet">
-    <style media="screen">
-        * {
-            border: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: system, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Lucida Grande", sans-serif;
-            line-height: 1.65;
-            -webkit-font-smoothing: antialiased;
-            background: #fff;
-            color: #34495e;
-        }
-
-        h1 {
-            color: #2C3E50;
-        }
-
-        h3 {
-            color: #22313F;
-        }
-
-        a {
-            color: inherit;
-        }
-
-        .gradient-wrap {
-            box-shadow: 0 1px 2px rgba(5,30,50,.6);
-        }
-
-        .gradient-wrap img {
-            box-shadow: 0 10px 20px rgba(5,30,50,.1);
-        }
-    </style>
+    <link href="css/basscss.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/grade-js.css" media="screen">
+    
 </head>
 
 <body>
@@ -81,38 +49,44 @@
                 npm install grade-js
             </p>
         </div>
+
         <div class="left-align max-width-3 mx-auto mb4">
             <h4 class="mb1">Usage</h4>
-            <!-- HTML generated using hilite.me --><div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #75715e">&lt;!--the gradient is applied to this div as a background-image--&gt;</span>
-<span style="color: #f92672">&lt;div</span> <span style="color: #a6e22e">class=</span><span style="color: #e6db74">&quot;gradient-wrap&quot;</span><span style="color: #f92672">&gt;</span>
-    <span style="color: #75715e">&lt;!--this inner image is used to create the gradient--&gt;</span>
-    <span style="color: #f92672">&lt;img</span> <span style="color: #a6e22e">src=</span><span style="color: #e6db74">&quot;./samples/good-dinosaur.jpg&quot;</span> <span style="color: #f92672">/&gt;</span>
-<span style="color: #f92672">&lt;/div&gt;</span>
-
-<span style="color: #f92672">&lt;script </span><span style="color: #a6e22e">src=</span><span style="color: #e6db74">&quot;../dist/grade.js&quot;</span><span style="color: #f92672">&gt;&lt;/script&gt;</span>
-<span style="color: #f92672">&lt;script </span><span style="color: #a6e22e">type=</span><span style="color: #e6db74">&quot;text/javascript&quot;</span><span style="color: #f92672">&gt;</span>
-    <span style="color: #f8f8f2">window.</span><span style="color: #a6e22e">addEventListener</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;load&#39;</span><span style="color: #f8f8f2">,</span> <span style="color: #66d9ef">function</span><span style="color: #f8f8f2">(){</span>
-        <span style="color: #a6e22e">Grade</span><span style="color: #f8f8f2">(document.</span><span style="color: #a6e22e">querySelectorAll</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;.gradient-wrap&#39;</span><span style="color: #f8f8f2">))</span>
-    <span style="color: #f8f8f2">})</span>
-<span style="color: #f92672">&lt;/script&gt;</span>
-</pre></div>
-<!-- HTML generated using hilite.me --><div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #75715e">// If you pass in a 3rd parameter and it&#39;s a function,</span>
-<span style="color: #75715e">// the HTML element(s) you passed in as the</span>
-<span style="color: #75715e">// 1st parameter will not be manipulated, but an array will be</span>
-<span style="color: #75715e">// returned to you, for you to do as you please with, ie.</span>
-<span style="color: #a6e22e">Grade</span><span style="color: #f8f8f2">(document.</span><span style="color: #a6e22e">querySelectorAll</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;.gradient-wrap&#39;</span><span style="color: #f8f8f2">),</span> <span style="color: #66d9ef">null</span><span style="color: #f8f8f2">,</span> <span style="color: #66d9ef">function</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">gradientData</span><span style="color: #f8f8f2">){</span>
-    <span style="color: #75715e">// sample contents of `gradientData` can be inspected here https://jsonblob.com/57c4601ee4b0dc55a4f180f1</span>
-<span style="color: #f8f8f2">})</span>
-</pre></div>
-
+            <!-- HTML generated using hilite.me -->
+            <div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+                <pre style="margin: 0; line-height: 125%"><span style="color: #75715e">&lt;!--the gradient is applied to this div as a background-image--&gt;</span>
+                    <span style="color: #f92672">&lt;div</span> <span style="color: #a6e22e">class=</span><span style="color: #e6db74">&quot;gradient-wrap&quot;</span><span style="color: #f92672">&gt;</span>
+                    <span style="color: #75715e">&lt;!--this inner image is used to create the gradient--&gt;</span>
+                    <span style="color: #f92672">&lt;img</span> <span style="color: #a6e22e">src=</span><span style="color: #e6db74">&quot;./samples/good-dinosaur.jpg&quot;</span> <span style="color: #f92672">/&gt;</span>
+                    <span style="color: #f92672">&lt;/div&gt;</span>
+                    <span style="color: #f92672">&lt;script </span><span style="color: #a6e22e">src=</span><span style="color: #e6db74">&quot;../dist/grade.js&quot;</span><span style="color: #f92672">&gt;&lt;/script&gt;</span>
+                    <span style="color: #f92672">&lt;script </span><span style="color: #a6e22e">type=</span><span style="color: #e6db74">&quot;text/javascript&quot;</span><span style="color: #f92672">&gt;</span>
+                    <span style="color: #f8f8f2">window.</span><span style="color: #a6e22e">addEventListener</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;load&#39;</span><span style="color: #f8f8f2">,</span> <span style="color: #66d9ef">function</span><span style="color: #f8f8f2">(){</span>
+                    <span style="color: #a6e22e">Grade</span><span style="color: #f8f8f2">(document.</span><span style="color: #a6e22e">querySelectorAll</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;.gradient-wrap&#39;</span><span style="color: #f8f8f2">))</span>
+                    <span style="color: #f8f8f2">})</span>
+                    <span style="color: #f92672">&lt;/script&gt;</span>
+                </pre>
+            </div>
+            <!-- HTML generated using hilite.me -->
+            <div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+                <pre style="margin: 0; line-height: 125%"><span style="color: #75715e">// If you pass in a 3rd parameter and it&#39;s a function,</span>
+                    <span style="color: #75715e">// the HTML element(s) you passed in as the</span>
+                    <span style="color: #75715e">// 1st parameter will not be manipulated, but an array will be</span>
+                    <span style="color: #75715e">// returned to you, for you to do as you please with, ie.</span>
+                    <span style="color: #a6e22e">Grade</span><span style="color: #f8f8f2">(document.</span><span style="color: #a6e22e">querySelectorAll</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;.gradient-wrap&#39;</span><span style="color: #f8f8f2">),</span> <span style="color: #66d9ef">null</span><span style="color: #f8f8f2">,</span> <span style="color: #66d9ef">function</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">gradientData</span><span style="color: #f8f8f2">){</span>
+                    <span style="color: #75715e">// sample contents of `gradientData` can be inspected here https://jsonblob.com/57c4601ee4b0dc55a4f180f1</span>
+                    <span style="color: #f8f8f2">})</span>
+                </pre>
+            </div>
         </div>
+
         <footer class="pb2">
             <p class="center">
                 Made by <a href="http://benhowdle.im">Ben Howdle</a>
             </p>
         </footer>
     </div>
-    <script src="./dist/grade.js"></script>
+    <script src="dist/grade.js"></script>
     <script type="text/javascript">
         window.addEventListener('load', function(){
             Grade(document.querySelectorAll('.gradient-wrap'))
